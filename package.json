@@ -12,12 +12,17 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@aws-amplify/ui-react": "^6.1.9",
+    "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.17.2",
     "aws-amplify": "^6.2.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.2",
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.0.0",
@@ -37,5 +42,8 @@
     "tsx": "^4.7.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.0"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }

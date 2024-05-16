@@ -1,65 +1,61 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 body {
-  margin: 0;
-  background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
-  display: flex;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  height: 100vh;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+body {
+	background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	height: 100vh;
+	width: 100vw;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  color: white;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-ul {
-  padding-inline-start: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  margin: 8px 0;
-  border: 1px solid black;
-  gap: 1px;
-  background-color: black;
-  border-radius: 8px;
-  overflow: auto;
-}
-
-li {
-  background-color: white;
-  padding: 8px;
-}
-
-li:hover {
-  background: #dadbf9;
-}
 
 a {
-  font-weight: 800;
-  text-decoration: none;
+	font-weight: 800;
+	text-decoration: none;
 }
