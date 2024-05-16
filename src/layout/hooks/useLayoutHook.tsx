@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { CustomRouteObject } from '../routes/useRouterHook';
-import { Router } from '@remix-run/router';
 
 type MenuItem = Required<MenuProps>['items'][number];
 type Breadcrumb = {
