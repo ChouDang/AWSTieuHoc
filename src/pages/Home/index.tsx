@@ -1,13 +1,11 @@
-import React, { Fragment } from 'react'
-import { useAppSelector, useAppDispatch } from '../../redux/hook'
+import { Fragment } from 'react'
+import styled from 'styled-components' 
 import { decrement, increment } from '../../redux/Home/HomeSlice'
-import styled from 'styled-components'
-
-type Props = {}
+import { useAppDispatch, useAppSelector } from '../../redux/hook'
 
 const WrapperHome = styled.div``
 
-const Home = (props: Props) => {
+const Home = () => {
 
     const count = useAppSelector(state => state.home.value)
     const dispatch = useAppDispatch()

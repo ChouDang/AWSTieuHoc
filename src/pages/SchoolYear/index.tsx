@@ -1,10 +1,8 @@
-import React, {Fragment} from 'react'
+import { Fragment } from 'react'
 
-type Props = {}
-
-const SchoolYear = (props: Props) => {
+const SchoolYear = () => {
   return <Fragment>
-      SchoolYear
+    SchoolYear
   </Fragment>
 }
 

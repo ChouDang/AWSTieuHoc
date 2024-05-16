@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import { AuthUser } from 'aws-amplify/auth';
 import { Outlet, RouteObject, createBrowserRouter } from 'react-router-dom';
 import Error from '../../pages/Error';
 import Home from '../../pages/Home';
-import { AuthUser } from 'aws-amplify/auth';
-import { useAppSelector, useAppDispatch } from '../../redux/hook'
-import { updateUserInfoLogin } from '../../redux/User/UserSilice';
 import SchoolYear from '../../pages/SchoolYear';
+import { updateUserInfoLogin } from '../../redux/User/UserSilice';
+import { useAppDispatch } from '../../redux/hook';
 
 type PropsCustom = {
     signOut:  () => Promise<void>,

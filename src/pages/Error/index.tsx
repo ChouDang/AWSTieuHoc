@@ -1,9 +1,6 @@
-import React from 'react'
 import { useRouteError } from "react-router-dom";
 
-type Props = {}
-
-const index = (props: Props) => {
+const index = () => {
     const error:any = useRouteError();
     return (
       <div id="error-page">
