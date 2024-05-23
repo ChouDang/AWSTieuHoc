@@ -78,7 +78,7 @@ const Layout = (props: Props) => {
           <div
             style={{
               padding: 24,
-              minHeight: "calc(100vh - 84px)",
+              minHeight: "calc(100vh -150px)",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
