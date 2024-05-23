@@ -42,7 +42,7 @@ const Layout = (props: Props) => {
             return { ..._menu_select }
           })
         }}>
-          <img src="../public/LOGOCHOUDANG.png" alt="logo" width={180} height={100} />
+          <img src="./assets/LOGOCHOUDANG.png" alt="logo" width={180} height={100} />
         </div>
         <Menu theme="dark" mode="inline"
           items={items}
