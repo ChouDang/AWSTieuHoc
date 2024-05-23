@@ -1,7 +1,3 @@
-import { Dayjs } from 'dayjs';
-
-//========= Table Antd
-
 //========= SchoolYear
 
 export enum EnumSchoolYear {
@@ -10,8 +6,9 @@ export enum EnumSchoolYear {
 }
 
 export type SchoolYear = {
+    id?: string,
     YearName:string,
-    Start: Date | Dayjs | string,
-    End: Date | Dayjs | string,
-    Status: EnumSchoolYear
+    Start: Date | undefined | null,
+    End: Date | undefined | null,
+    Status: EnumSchoolYear 
 }

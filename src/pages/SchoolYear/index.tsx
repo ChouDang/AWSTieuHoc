@@ -14,22 +14,22 @@ const SchoolYear = () => {
         {
           title: 'Tên Năm Học',
           key: nanoid(),
-          render: (text, row, index) => <Fragment>{row?.YearName || ""}</Fragment>,
+          render: ({record}) => <Fragment>{record?.YearName || ""}</Fragment>,
         },
         {
           title: 'Thời gian hoạt động',
           key: nanoid(),
-          render: (text, row, index) => {
-            let dateStartEnd = (dayjs(row?.Start) + " - " + dayjs(row?.End)) || ""
+          render: ({record}) => {
+            let dateStartEnd = (dayjs(record?.Start) + " - " + dayjs(record?.End)) || ""
             return <Fragment>{dateStartEnd}</Fragment>
           },
         },
         {
           title: 'Trạng thái',
           key: nanoid(),
-          render: (text, row, index) => {
+          render: ({record}) => {
             let arrText = ["Hoạt động", "Không hoạt động"]
-            return <Fragment>{arrText[row?.Status] || ""}</Fragment>
+            return <Fragment>{arrText[record?.Status] || ""}</Fragment>
           },
         },
       ]
