@@ -3,6 +3,7 @@ import { AuthUser } from 'aws-amplify/auth';
 import { RouterProvider, } from "react-router-dom";
 import useLayoutHook from './hooks/useLayoutHook';
 import useRouterHook from './routes/useRouterHook';
+import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 const { Header, Content, Sider } = LayoutAntd;
 
@@ -42,7 +43,7 @@ const Layout = (props: Props) => {
             return { ..._menu_select }
           })
         }}>
-          <img src="./assets/LOGOCHOUDANG.png" alt="logo" width={180} height={100} />
+          <StorageImage alt="logo" path="./assets/LOGOCHOUDANG.png" width={180} height={100} />
         </div>
         <Menu theme="dark" mode="inline"
           items={items}
