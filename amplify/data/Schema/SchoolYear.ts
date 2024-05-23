@@ -5,7 +5,8 @@ export const SchemaSchoolYear = () => ({
         YearName: a.string(),
         Start: a.date(),
         End: a.date(),
-        Status: a.enum(["Active", "Inactive"])
+        Status: a.enum(["Active", "Inactive"]),
+        inTrash: a.boolean(),
     })
         .authorization(allow => [allow.owner()]),
 })

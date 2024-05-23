@@ -4,11 +4,47 @@ import { SchoolYear } from '../../consts/types'
 
 const client = generateClient<Schema>()
 
-export const createTodo = async (_data: SchoolYear) => {
-    await client.models.SchoolYear.create({
-        YearName: "2024 - 2025",
-        Start: new Date().toUTCString() ,
-        End: new Date().toUTCString(),
-        Status: "Active",
-    })
+export const ListSchoolYear = async () => await client.models.SchoolYear.list()
+
+export const GetByIdSchoolYear = async (_id: string = "") => await client.models.SchoolYear.get({ id: _id });
+
+export const CreateSchoolYear = async (_data: SchoolYear) => await client.models.SchoolYear.create(_data)
+
+export const UpdateSchoolYear = async (_data: SchoolYear) => await client.models.SchoolYear.update(_data)
+
+export const DeleteSchoolYear = async (_id: string = "") => await client.models.SchoolYear.delete({ id: _id })
+
+export const DeleteSchoolYears = async (_lstId: string[] = []) => {
+    let {data} = await ListSchoolYear()
+    if(data.length){
+        data.forEach(async (i)=> {
+           await DeleteSchoolYear(i.id)
+        })
+    }
 }
+
+export const DelToTrashSchoolYear = async (_lstId: string[] = []) => {
+    let {data} = await ListSchoolYear()
+    if(data.length){
+        data.forEach(async (i)=> {
+            if(_lstId.includes(i.id)){
+                i.inTrash = true
+                await UpdateSchoolYear({...i})
+            }
+        })
+    }
+}
+
+export const RestoreTrashToSchoolYear = async (_lstId: string[] = []) => {
+    let {data} = await ListSchoolYear()
+    if(data.length){
+        data.forEach(async (i)=> {
+            if(_lstId.includes(i.id)){
+                i.inTrash = false
+                await UpdateSchoolYear({...i})
+            }
+        })
+    }
+}
+
+
