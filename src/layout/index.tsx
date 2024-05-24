@@ -25,7 +25,7 @@ const ChooseYearSchool = () => {
   const dispatch = useAppDispatch()
   const LstSchoolYear = useAppSelector(state => state.schoolyear.LstSchoolYear)
   const SchoolYearSelect = useAppSelector(state => state.schoolyear.SchoolYearSelect)
-  
+
   const onInit = async () => {
     let { data } = await ListSchoolYear()
     let optSchoolYear = data.map(i => ({
@@ -42,17 +42,17 @@ const ChooseYearSchool = () => {
   useEffect(() => {
     // Subscribe to creation of.SchoolYear
     const createSub = client.models.SchoolYear.onCreate().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({...data, type: "create" })),
+      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "create" })),
       error: (error) => console.warn(error),
     });
     // Subscribe to update of.SchoolYear
     const updateSub = client.models.SchoolYear.onUpdate().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({...data, type: "update" })),
+      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "update" })),
       error: (error) => console.warn(error),
     });
     // Subscribe to deletion of.SchoolYear
     const deleteSub = client.models.SchoolYear.onDelete().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({...data, type: "delete" })),
+      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "delete" })),
       error: (error) => console.warn(error),
     });
     return () => {
@@ -102,7 +102,10 @@ const Layout = (props: Props) => {
             return { ..._menu_select }
           })
         }}>
-          <img src={`${window.location.origin}/public/LOGOCHOUDANG.png`} alt="logo" width={180} height={100} />
+          <img src={process.env.NODE_ENV == "development"
+            ? `${window.location.origin}/public/LOGOCHOUDANG.png`
+            : `${window.location.origin}/LOGOCHOUDANG.png`
+          } alt="logo" width={180} height={100} />
         </div>
         <Menu theme="dark" mode="inline"
           items={items}
