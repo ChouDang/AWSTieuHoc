@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { CustomRouteObject } from '../routes/useRouterHook';
 
@@ -6,7 +6,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 type Breadcrumb = {
   PageName: "Trang chủ",
   path: "/",
-  isParent: false
+  children: []
 }[]
 
 function getItem(
@@ -51,8 +51,7 @@ const useLayoutHook = (customRouter: CustomRouteObject[]) => {
   const actInitItems = (_customRouter: CustomRouteObject[]) => {
     let Items: MenuItem[] = []
     customRouter.forEach((item) => {
-      if (item.path == "/" || item.path == "/logout") {
-      } else {
+      if (item.isShowMenu) {
         Items.push(
           getItem(item.PageName, item.path, item.icon, actFindChirldren(item))
         )
@@ -65,7 +64,7 @@ const useLayoutHook = (customRouter: CustomRouteObject[]) => {
     let res: any = [{
       PageName: "Trang chủ",
       path: "/",
-      isParent: false
+      children: []
     }]
 
     if (window.location.pathname == "/") {
@@ -78,7 +77,6 @@ const useLayoutHook = (customRouter: CustomRouteObject[]) => {
             res.push({
               PageName: i.PageName,
               path: i.path,
-              isParent: Array.isArray(i?.children) && Boolean(i?.children?.length)
             })
             if (i.children?.length) {
               actGetPathOfchildren(i.children)
@@ -92,7 +90,6 @@ const useLayoutHook = (customRouter: CustomRouteObject[]) => {
         res.push({
           PageName: customRouter[i].PageName,
           path: customRouter[i].path,
-          isParent: Boolean(customRouter[i]?.children?.length)
         })
         if (customRouter[i]?.children?.length) {
           actGetPathOfchildren(customRouter[i]?.children || [])

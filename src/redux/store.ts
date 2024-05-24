@@ -1,12 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, Tuple } from '@reduxjs/toolkit'
 import { homeSlice } from './Home/HomeSlice'
 import { userSlice } from './User/UserSilice'
-
+import { schoolyearSlice } from './SchoolYear/SchoolYearSilice'
+import logger from 'redux-logger'
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
-    home: homeSlice.reducer
-  }
+    home: homeSlice.reducer,
+    schoolyear: schoolyearSlice.reducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

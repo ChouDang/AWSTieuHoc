@@ -5,7 +5,8 @@ import Error from '../../pages/Error';
 import Home from '../../pages/Home';
 import SchoolYear from '../../pages/SchoolYear';
 import { updateUserInfoLogin } from '../../redux/User/UserSilice';
-import { useAppDispatch } from '../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import UserInfo from '../../pages/UserInfo';
 
 type PropsCustom = {
     signOut:  () => Promise<void>,
@@ -22,6 +23,7 @@ export type CustomRouteObject = Omit<RouteObject, "children"> & {
     icon?: React.ReactNode,
     children?: CustomRouteObject[],
     path: string,
+    isShowMenu: boolean,
   };
 
 const useRouterHook = (props: PropsCustom) => {
@@ -30,7 +32,7 @@ const useRouterHook = (props: PropsCustom) => {
         signOut,
         user
     } = props
-
+    const userInfo = useAppSelector(state => state.user.UserInfo)
     const dispatch = useAppDispatch()
    
     useEffect(()=>{
@@ -52,7 +54,19 @@ const useRouterHook = (props: PropsCustom) => {
             permission: { View: true, Edit: true },
             element: <>Trang Chủ</>,
             errorElement: <Error />,
+            isShowMenu:false,
         },
+        {
+            path: "/UserInfo",
+            Id: 'UserInfo',
+            parentId: "",
+            roleName: "",
+            PageName: "Thông tin cá nhân",
+            permission: { View: true, Edit: true },
+            element: <UserInfo/>,
+            isShowMenu:false,
+        },
+
         {
             path: "/Home",
             Id: 'Home',
@@ -62,6 +76,7 @@ const useRouterHook = (props: PropsCustom) => {
             permission: { View: true, Edit: true },
             element: <Home/>,
             errorElement: <Error />,
+            isShowMenu:true,
         },
         {
             path: "/SchoolInfomation",
@@ -70,6 +85,7 @@ const useRouterHook = (props: PropsCustom) => {
             parentId: "",
             PageName: "Thông tin trường",
             element: <Outlet/>,
+            isShowMenu:true,
             children: [
                 {
                     index: true,
@@ -81,6 +97,7 @@ const useRouterHook = (props: PropsCustom) => {
                     permission: { View: true, Edit: true },
                     element: <SchoolYear/>,
                     errorElement: <Error />,
+                    isShowMenu:true,
                 },
             ],
         },
@@ -89,6 +106,7 @@ const useRouterHook = (props: PropsCustom) => {
             path: "/logout",
             Id: 'logout',
             parentId: "",
+            isShowMenu:false,
             async action() {
                 signOut()
             },
@@ -101,7 +119,7 @@ const useRouterHook = (props: PropsCustom) => {
         import.meta.hot.dispose(() => router.dispose());
     }
 
-    return { router, customRouter }
+    return { router, customRouter, userInfo }
 }
 
 export default useRouterHook
