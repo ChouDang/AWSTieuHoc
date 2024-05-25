@@ -11,10 +11,12 @@ import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { myApiFunction } from "./functions/api-function/resource";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
+import { storage } from './storage/resource';
 
 const backend = defineBackend({
   auth,
   data,
+  storage,
   // myApiFunction,
 });
 
