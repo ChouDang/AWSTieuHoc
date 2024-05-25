@@ -62,10 +62,11 @@ const ModalUpsert = (props: Props) => {
         inTrash: false,
       }
     }
-
-    const { data: result, errors } = model?.id
+    const actFetchSubmit = model?.id
       ? await UpdateSchoolYear(model)
       : await CreateSchoolYear(model)
+
+    let { data: result, errors } = actFetchSubmit || {}
     if (result) {
       notification.success({
         message: 'Thao tác thành công',

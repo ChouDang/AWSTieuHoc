@@ -8,5 +8,5 @@ export const SchemaSchoolYear = () => ({
         Status: a.enum(["Active", "Inactive"]),
         inTrash: a.boolean(),
     })
-        .authorization(allow => [allow.owner()]),
+        .authorization(allow => [ allow.publicApiKey().to(['read','create','delete','update']),]),
 })

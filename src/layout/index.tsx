@@ -1,16 +1,16 @@
+import { useEffect } from 'react';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Select, Space, Typography, theme } from 'antd';
 import { AuthUser } from 'aws-amplify/auth';
+import { generateClient } from 'aws-amplify/data';
 import { RouterProvider, } from "react-router-dom";
+import { Fragment } from 'react/jsx-runtime';
+import type { Schema } from '../../amplify/data/resource';
+import { handleSchoolYearHubThunk, updateLstSchoolYear, updateSchoolYearSelect } from '../redux/SchoolYear/SchoolYearSilice';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { ListSchoolYear } from '../services/SchoolYear';
 import useLayoutHook from './hooks/useLayoutHook';
 import useRouterHook from './routes/useRouterHook';
-import { Fragment } from 'react/jsx-runtime';
-import { useEffect } from 'react';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../amplify/data/resource';
-import { ListSchoolYear } from '../services/SchoolYear';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { LstSchoolYearCustom, handleSchoolYearHubThunk, updateLstSchoolYear, updateSchoolYearSelect } from '../redux/SchoolYear/SchoolYearSilice';
 
 const { Header, Content, Sider } = LayoutAntd;
 
@@ -64,9 +64,10 @@ const ChooseYearSchool = () => {
 
   return <Fragment>
     <Select
+      style={{minWidth: 200}}
       value={SchoolYearSelect}
       options={LstSchoolYear}
-      onChange={() => { }}
+      onChange={(e) => dispatch(updateSchoolYearSelect(e))}
     />
   </Fragment>
 }

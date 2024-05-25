@@ -36,22 +36,29 @@ export const handleSchoolYearHubThunk = createAsyncThunk<
 
     switch (obj.type) {
         case "create":
-            newLstSchoolYear = [optObj, ...(LstSchoolYear ? LstSchoolYear : [])]
-            obj.Status == "Active" ? newSchoolYearSelect = obj.id : newSchoolYearSelect = SchoolYearSelect
+            newLstSchoolYear = [optObj, ...(LstSchoolYear || [])];
+            newSchoolYearSelect = obj.Status === "Active" ? obj.id : SchoolYearSelect;
             break;
         case "update":
             if (obj.inTrash) {
-                newLstSchoolYear = LstSchoolYear?.filter(i => i.id != obj.id) || []
-                newSchoolYearSelect = SchoolYearSelect
+                newLstSchoolYear = LstSchoolYear?.filter(i => i.id !== obj.id) || [];
+                newSchoolYearSelect = obj.Status === "Active" ? "" : SchoolYearSelect;
             } else {
-                let {data} = await ListSchoolYear()
-                newLstSchoolYear = data?.map(i => ({ ...i, value: i.id, label: i.YearName })) || []
-                obj.Status == "Active" ? newSchoolYearSelect = obj.id : newSchoolYearSelect = SchoolYearSelect
+                const { data } = await ListSchoolYear();
+                newLstSchoolYear = data?.map(i => ({ ...i, value: i.id, label: i.YearName })) || [];
+    
+                if (obj.Status === "Active") {
+                    newSchoolYearSelect = obj.id;
+                } else if (obj.id === SchoolYearSelect) {
+                    newSchoolYearSelect = "";
+                } else {
+                    newSchoolYearSelect = SchoolYearSelect;
+                }
             }
             break;
         case "delete":
-            newLstSchoolYear = LstSchoolYear
-             obj.Status == "Active" ? newSchoolYearSelect = "" : newSchoolYearSelect = SchoolYearSelect
+            newLstSchoolYear = LstSchoolYear;
+            newSchoolYearSelect = obj.Status === "Active" ? "" : SchoolYearSelect;
             break;
         default:
             break;
@@ -59,7 +66,7 @@ export const handleSchoolYearHubThunk = createAsyncThunk<
 
     return {
         LstSchoolYear: newLstSchoolYear,
-        SchoolYearSelect: SchoolYearSelect
+        SchoolYearSelect: newSchoolYearSelect
     }
 })
 
