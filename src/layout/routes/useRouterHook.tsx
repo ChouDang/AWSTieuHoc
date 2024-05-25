@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
 import { AuthUser } from 'aws-amplify/auth';
+import React, { useEffect } from 'react';
 import { Outlet, RouteObject, createBrowserRouter } from 'react-router-dom';
 import Error from '../../pages/Error';
 import Home from '../../pages/Home';
 import SchoolYear from '../../pages/SchoolYear';
+import UserInfo from '../../pages/UserInfo';
 import { updateUserInfoLogin } from '../../redux/User/UserSilice';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import UserInfo from '../../pages/UserInfo';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 type PropsCustom = {
-    signOut:  () => Promise<void>,
+    signOut: () => Promise<void>,
     user: AuthUser | undefined,
 }
 
 export type CustomRouteObject = Omit<RouteObject, "children"> & {
-    Id:string,
+    Id: string,
     parentId?: string,
     PageName?: string,
     roleName?: string,
@@ -24,7 +25,7 @@ export type CustomRouteObject = Omit<RouteObject, "children"> & {
     children?: CustomRouteObject[],
     path: string,
     isShowMenu: boolean,
-  };
+};
 
 const useRouterHook = (props: PropsCustom) => {
 
@@ -32,19 +33,25 @@ const useRouterHook = (props: PropsCustom) => {
         signOut,
         user
     } = props
+
     const userInfo = useAppSelector(state => state.user.UserInfo)
     const dispatch = useAppDispatch()
-   
-    useEffect(()=>{
-        if(user){
-            dispatch(updateUserInfoLogin({...user, 
-                SchoolName: "ChouDang School",
-                SchoolLevel: 1,
-            }))
-        }
-    },[user])
 
-    const customRouter : CustomRouteObject[] = [
+    useEffect(() => {
+        if (user) {
+            fetchAuthSession().then((info) => {
+                dispatch(updateUserInfoLogin({
+                    ...user,
+                    SchoolName: "ChouDang School",
+                    SchoolLevel: 1,
+                    Region: "ap-southeast-1",
+                    identityId: info.identityId || ""
+                }))
+            });
+        }
+    }, [user])
+
+    const customRouter: CustomRouteObject[] = [
         {
             path: "/",
             Id: 'Root',
@@ -54,7 +61,7 @@ const useRouterHook = (props: PropsCustom) => {
             permission: { View: true, Edit: true },
             element: <>Trang Chủ</>,
             errorElement: <Error />,
-            isShowMenu:false,
+            isShowMenu: false,
         },
         {
             path: "/UserInfo",
@@ -63,8 +70,8 @@ const useRouterHook = (props: PropsCustom) => {
             roleName: "",
             PageName: "Thông tin cá nhân",
             permission: { View: true, Edit: true },
-            element: <UserInfo/>,
-            isShowMenu:false,
+            element: <UserInfo />,
+            isShowMenu: false,
         },
 
         {
@@ -74,9 +81,9 @@ const useRouterHook = (props: PropsCustom) => {
             roleName: "",
             PageName: "Dashboard",
             permission: { View: true, Edit: true },
-            element: <Home/>,
+            element: <Home />,
             errorElement: <Error />,
-            isShowMenu:true,
+            isShowMenu: true,
         },
         {
             path: "/SchoolInfomation",
@@ -84,8 +91,8 @@ const useRouterHook = (props: PropsCustom) => {
             roleName: "",
             parentId: "",
             PageName: "Thông tin trường",
-            element: <Outlet/>,
-            isShowMenu:true,
+            element: <Outlet />,
+            isShowMenu: true,
             children: [
                 {
                     index: true,
@@ -95,18 +102,18 @@ const useRouterHook = (props: PropsCustom) => {
                     roleName: "",
                     PageName: "Năm học",
                     permission: { View: true, Edit: true },
-                    element: <SchoolYear/>,
+                    element: <SchoolYear />,
                     errorElement: <Error />,
-                    isShowMenu:true,
+                    isShowMenu: true,
                 },
             ],
         },
-        
+
         {
             path: "/logout",
             Id: 'logout',
             parentId: "",
-            isShowMenu:false,
+            isShowMenu: false,
             async action() {
                 signOut()
             },

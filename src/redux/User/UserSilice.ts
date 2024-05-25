@@ -5,6 +5,8 @@ import { AuthUser } from 'aws-amplify/auth'
 type AuthUserCustom  = {
     SchoolName: string,
     SchoolLevel: number,
+    Region: string,
+    identityId: string,
 } & AuthUser
 
 // Define a type for the slice state

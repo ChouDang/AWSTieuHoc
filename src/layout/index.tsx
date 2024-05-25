@@ -1,75 +1,16 @@
-import { useEffect } from 'react';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Select, Space, Typography, theme } from 'antd';
+import { Avatar, Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Space, Typography, theme } from 'antd';
 import { AuthUser } from 'aws-amplify/auth';
-import { generateClient } from 'aws-amplify/data';
 import { RouterProvider, } from "react-router-dom";
-import { Fragment } from 'react/jsx-runtime';
-import type { Schema } from '../../amplify/data/resource';
-import { handleSchoolYearHubThunk, updateLstSchoolYear, updateSchoolYearSelect } from '../redux/SchoolYear/SchoolYearSilice';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { ListSchoolYear } from '../services/SchoolYear';
 import useLayoutHook from './hooks/useLayoutHook';
 import useRouterHook from './routes/useRouterHook';
-
+import ChooseYearSchool from './components/ChooseYearSchool';
+import { useEffect } from 'react';
 const { Header, Content, Sider } = LayoutAntd;
 
 type Props = {
   signOut: any,
   user: AuthUser | undefined
-}
-const client = generateClient<Schema>();
-
-const ChooseYearSchool = () => {
-
-  const dispatch = useAppDispatch()
-  const LstSchoolYear = useAppSelector(state => state.schoolyear.LstSchoolYear)
-  const SchoolYearSelect = useAppSelector(state => state.schoolyear.SchoolYearSelect)
-
-  const onInit = async () => {
-    let { data } = await ListSchoolYear()
-    let optSchoolYear = data.map(i => ({
-      ...i,
-      value: i.id,
-      label: i.YearName,
-    }))
-    dispatch(updateLstSchoolYear(optSchoolYear))
-    let objActive = optSchoolYear.find(i => i.Status == "Active")
-    objActive && dispatch(updateSchoolYearSelect(objActive.id))
-  }
-
-  useEffect(() => { onInit() }, [])
-  useEffect(() => {
-    // Subscribe to creation of.SchoolYear
-    const createSub = client.models.SchoolYear.onCreate().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "create" })),
-      error: (error) => console.warn(error),
-    });
-    // Subscribe to update of.SchoolYear
-    const updateSub = client.models.SchoolYear.onUpdate().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "update" })),
-      error: (error) => console.warn(error),
-    });
-    // Subscribe to deletion of.SchoolYear
-    const deleteSub = client.models.SchoolYear.onDelete().subscribe({
-      next: async (data) => await dispatch(handleSchoolYearHubThunk({ ...data, type: "delete" })),
-      error: (error) => console.warn(error),
-    });
-    return () => {
-      createSub.unsubscribe();
-      updateSub.unsubscribe();
-      deleteSub.unsubscribe();
-    }
-  }, [])
-
-  return <Fragment>
-    <Select
-      style={{minWidth: 200}}
-      value={SchoolYearSelect}
-      options={LstSchoolYear}
-      onChange={(e) => dispatch(updateSchoolYearSelect(e))}
-    />
-  </Fragment>
 }
 
 const Layout = (props: Props) => {
