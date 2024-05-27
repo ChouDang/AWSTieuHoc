@@ -1,16 +1,42 @@
-import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Space, Typography, theme } from 'antd';
+import { Fragment, useState } from 'react';
+import { BellOutlined } from '@ant-design/icons';
+import { StorageImage } from '@aws-amplify/ui-react-storage';
+import { Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Space, Typography, theme } from 'antd';
 import { AuthUser } from 'aws-amplify/auth';
 import { RouterProvider, } from "react-router-dom";
+import ChooseYearSchool from './components/ChooseYearSchool';
 import useLayoutHook from './hooks/useLayoutHook';
 import useRouterHook from './routes/useRouterHook';
-import ChooseYearSchool from './components/ChooseYearSchool';
-import { useEffect } from 'react';
 const { Header, Content, Sider } = LayoutAntd;
 
 type Props = {
   signOut: any,
   user: AuthUser | undefined
+}
+
+const Avatar = () => {
+  const [update, set_update] = useState(false)
+  return <Fragment>
+    <button className='d-none trigger-avatar' onClick={(e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      set_update(bol => !bol)
+    }} />
+    <StorageImage
+      alt="avatar"
+      path={({ identityId }) => {
+        return `profile-pictures/${identityId}/avatar-user`
+      }}
+      style={{
+        borderRadius: '50%',
+        width: 40,
+        height: 40,
+      }}
+      fallbackSrc={process.env.NODE_ENV == "development"
+        ? `${window.location.origin}/public/default-avatar.jpg`
+        : `${window.location.origin}/default-avatar.jpg`}
+    />
+  </Fragment>
 }
 
 const Layout = (props: Props) => {
@@ -76,7 +102,7 @@ const Layout = (props: Props) => {
               <Typography.Title level={4}>{userInfo?.SchoolName || ""}</Typography.Title>
             </Col>
             <Col>
-              <Space>
+              <Space align={"center"} wrap={false} >
                 <Dropdown
                   menu={{
                     items: [],
@@ -85,29 +111,36 @@ const Layout = (props: Props) => {
                 >
                   <Button size={"large"} shape='circle' icon={<BellOutlined size={20} />} />
                 </Dropdown>
-                <Divider type={"vertical"} />
-                <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        key: '1',
-                        label: "Thông tin cá nhân",
-                        onClick: () => {
-                          router.navigate("/UserInfo")
-                          set_menu_select(_menu_select => ({ ..._menu_select, sub_menu: [] }))
-                        }
-                      },
-                      {
-                        key: '2',
-                        label: "Đăng xuất",
-                        onClick: () => props?.signOut()
-                      },
-                    ],
-                  }}
-                  trigger={['click']}
-                >
-                  <Avatar className='mb-2' size={40} icon={<UserOutlined />} />
-                </Dropdown>
+                <Divider type={"vertical"} style={{ height: "auto" }} />
+                <div className='d-flex align-items-center'>
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: '1',
+                          label: "Thông tin cá nhân",
+                          onClick: () => {
+                            router.navigate("/UserInfo")
+                            set_menu_select(_menu_select => ({ ..._menu_select, sub_menu: [] }))
+                          }
+                        },
+                        {
+                          key: '2',
+                          label: "Đăng xuất",
+                          onClick: () => props?.signOut()
+                        },
+                      ],
+                    }}
+                    trigger={['click']}
+                  >
+                    <Button shape={"circle"} icon={<Avatar />} style={{
+                      outline: "unset",
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                    }} />
+                  </Dropdown>
+                </div>
               </Space>
             </Col>
           </Row>
