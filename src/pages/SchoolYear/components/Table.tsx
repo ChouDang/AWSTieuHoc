@@ -1,7 +1,8 @@
-import { Empty, Table as TableAntd, TableProps } from 'antd'
+import { TableProps } from 'antd'
 import { Fragment, useMemo } from 'react'
 import { SchoolYearUpdate } from '../../../consts/types'
-import { nanoid } from '@reduxjs/toolkit'
+import TableAntd from '../../../controls/Table/TableAntd'
+
 
 type Props = {
   lstRows: SchoolYearUpdate[],
@@ -55,27 +56,14 @@ const Table = (props: Props) => {
 
 
   return <Fragment>
-    {lstRows.length
-      ? <TableAntd
-        rowKey={"id"}
-        dataSource={lstRows}
-        columns={columns}
-        onRow={(record) => ({
-          onDoubleClick: () => {
-            set_rowEditing(record)
-            set_open(true)
-          },
-        })}
-        rowSelection={{
-          selectedRowKeys: selectRows,
-          onChange: (selectedRowKeys) => {
-            set_selectRows(selectedRowKeys)
-          },
-          onSelectAll: () => set_selectRows(lstRows.map(i => i.id) || [])
-        }}
-      />
-      : <Empty description="Hiện không có dữ liệu" style={{ marginTop: 24 }} />
-    }
+    <TableAntd
+      lstRows={lstRows}
+      columns={columns}
+      selectRows={selectRows}
+      set_open={set_open}
+      set_rowEditing={set_rowEditing}
+      set_selectRows={set_selectRows}
+    />
   </Fragment>
 }
 

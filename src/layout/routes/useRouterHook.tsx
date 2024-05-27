@@ -8,6 +8,7 @@ import UserInfo from '../../pages/UserInfo';
 import { updateUserInfoLogin } from '../../redux/User/UserSilice';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { fetchAuthSession } from 'aws-amplify/auth';
+import Class from '../../pages/Class';
 
 type PropsCustom = {
     signOut: () => Promise<void>,
@@ -103,6 +104,17 @@ const useRouterHook = (props: PropsCustom) => {
                     PageName: "Năm học",
                     permission: { View: true, Edit: true },
                     element: <SchoolYear />,
+                    errorElement: <Error />,
+                    isShowMenu: true,
+                },
+                {
+                    path: "/SchoolInfomation/Class",
+                    Id: "SchoolYear-Class",
+                    parentId: "SchoolInfo",
+                    roleName: "",
+                    PageName: "Lớp học",
+                    permission: { View: true, Edit: true },
+                    element: <Class />,
                     errorElement: <Error />,
                     isShowMenu: true,
                 },

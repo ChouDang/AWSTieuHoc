@@ -4,10 +4,10 @@ import { SchoolYearUpdate } from '../../consts/types'
 import React from 'react'
 import { notification } from 'antd'
 
-const client = generateClient<Schema>()
+const clientSchoolYear = generateClient<Schema>()
 const selectionSet = ["id", "YearName", "Start", "End", "Status", "inTrash"] as const;
-export const ListSchoolYear = async (isGetModelUpdate = false) => await client.models.SchoolYear.list({
-    ...(isGetModelUpdate && { selectionSet }),
+export const ListSchoolYear = async () => await clientSchoolYear.models.SchoolYear.list({
+    selectionSet,
     filter: {
         inTrash: {
             eq: false
@@ -15,7 +15,7 @@ export const ListSchoolYear = async (isGetModelUpdate = false) => await client.m
     }
 })
 
-export const ListSchoolYearInTrash = async () => await client.models.SchoolYear.list({
+export const ListSchoolYearInTrash = async () => await clientSchoolYear.models.SchoolYear.list({
     selectionSet,
     filter: {
         inTrash: {
@@ -24,9 +24,9 @@ export const ListSchoolYearInTrash = async () => await client.models.SchoolYear.
     }
 })
 
-export const GetByIdSchoolYear = async (_id: string = "") => await client.models.SchoolYear.get({ id: _id }, { selectionSet: ["id", "YearName", "Start", "End", "Status"] });
+export const GetByIdSchoolYear = async (_id: string = "") => await clientSchoolYear.models.SchoolYear.get({ id: _id }, { selectionSet: ["id", "YearName", "Start", "End", "Status"] });
 
-const actCheckHasActiveSchoolYear = async (_data:SchoolYearUpdate) => {
+const actCheckHasActiveSchoolYear = async (_data: SchoolYearUpdate) => {
     let { data } = await ListSchoolYear()
     if (data.find(i => i.Status == "Active") && _data.Status == "Active") {
         notification.error({
@@ -40,18 +40,18 @@ const actCheckHasActiveSchoolYear = async (_data:SchoolYearUpdate) => {
 }
 
 export const CreateSchoolYear = async (_data: SchoolYearUpdate) => {
-    if (await actCheckHasActiveSchoolYear(_data)) return await client.models.SchoolYear.create(_data)
+    if (await actCheckHasActiveSchoolYear(_data)) return await clientSchoolYear.models.SchoolYear.create(_data)
 }
 
 
 export const UpdateSchoolYear = async (_data: SchoolYearUpdate) => {
-    if (await actCheckHasActiveSchoolYear(_data)) return await client.models.SchoolYear.update(_data)
+    if (await actCheckHasActiveSchoolYear(_data)) return await clientSchoolYear.models.SchoolYear.update(_data)
 }
 
 
 export const DeleteSchoolYear = async (_id: string = "") => {
     try {
-        await client.models.SchoolYear.delete({ id: _id })
+        await clientSchoolYear.models.SchoolYear.delete({ id: _id })
         return true
     } catch (error) {
         console.log(error, "error")
@@ -76,7 +76,7 @@ export const DeleteSchoolYears = async (_lstId: React.Key[] | string[] = []) => 
 
 export const DelToTrashSchoolYear = async (_lstId: React.Key[] | string[] = []) => {
     try {
-        let { data } = await ListSchoolYear(true)
+        let { data } = await ListSchoolYear()
         if (data.length) {
             await Promise.all(data.map(async (i) => {
                 if (_lstId.includes(i.id)) {

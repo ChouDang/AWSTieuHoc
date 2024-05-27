@@ -2,9 +2,10 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Button, Col, Descriptions, Input, Modal, Row, notification } from 'antd';
 import { AuthUserCustom } from '../../../../redux/User/UserSilice';
 import { Controller, useForm } from 'react-hook-form';
-import { updatePassword } from 'aws-amplify/auth';
+import { confirmResetPassword, updatePassword } from 'aws-amplify/auth';
 import { resetPassword } from 'aws-amplify/auth';
 import { useAppSelector } from '../../../../redux/hook';
+import { nanoid } from '@reduxjs/toolkit';
 
 type PropsPass = {
     UserInfo: AuthUserCustom | undefined,
@@ -54,9 +55,13 @@ const ModalChangePass = (props: PropsPass) => {
         }
     }
 
-    // const onResetPass = async () => {
-
-    // }
+    const onResetPass = async () => {
+        // await confirmResetPassword({
+        //     username: UserInfo?.signInDetails?.loginId || "",
+        //     confirmationCode: nanoid(),
+        //     newPassword: nanoid(),
+        //   });
+    }
 
     // useEffect(() => {
     //     (async () => {
@@ -100,9 +105,9 @@ const ModalChangePass = (props: PropsPass) => {
             }}
             onCancel={() => set_open(false)}
             footer={[
-                // <Button key="back" onClick={() => onResetPass()}>
-                //     Làm mới PassWord
-                // </Button>,
+                <Button key="back" onClick={() => onResetPass()}>
+                    Làm mới PassWord
+                </Button>,
                 <Button key="submit" type="primary" onClick={() => set_open(false)}>
                     Hủy
                 </Button>,
@@ -222,7 +227,6 @@ const UserDetail = () => {
                 open={open}
                 set_open={set_open}
             />
-
         </Fragment>
     )
 }

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, memo, useState } from 'react';
 import { BellOutlined } from '@ant-design/icons';
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 import { Breadcrumb, Button, Col, Divider, Dropdown, Layout as LayoutAntd, Menu, Row, Space, Typography, theme } from 'antd';
@@ -14,7 +14,7 @@ type Props = {
   user: AuthUser | undefined
 }
 
-const Avatar = () => {
+const Avatar = memo(() => {
   const [update, set_update] = useState(false)
   return <Fragment>
     <button className='d-none trigger-avatar' onClick={(e) => {
@@ -37,7 +37,7 @@ const Avatar = () => {
         : `${window.location.origin}/default-avatar.jpg`}
     />
   </Fragment>
-}
+})
 
 const Layout = (props: Props) => {
 

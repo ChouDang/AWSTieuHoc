@@ -7,6 +7,7 @@ export const SchemaSchoolYear = () => ({
         End: a.date().required(),
         Status: a.enum(["Active", "Inactive"]),
         inTrash: a.boolean(),
+        Classes: a.hasMany('Class', 'SchoolYearId')
     })
         .authorization(allow => [ allow.publicApiKey().to(['read','create','delete','update']),]),
 })

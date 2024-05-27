@@ -1,6 +1,7 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { SchemaTodo } from "./Schema/todo";
 import { SchemaSchoolYear } from "./Schema/SchoolYear";
+import { SchemaClass } from "./Schema/Class";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -11,6 +12,7 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a.schema({
   ...SchemaTodo(),
   ...SchemaSchoolYear(),
+  ...SchemaClass()
 });
 
 export type Schema = ClientSchema<typeof schema>;
