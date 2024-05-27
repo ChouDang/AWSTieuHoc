@@ -49,8 +49,17 @@ const ModalUpsertClass = (props: Props) => {
             ? await UpdateClass(model)
             : await CreateClass(model)
         if (data) {
-            if (HeaderParams == model.Grades) {
-                set_lstRows(pre => ([data, ...pre]))
+            if (rowEditing?.id) {
+                if (HeaderParams == model.Grades) {
+                    set_lstRows(pre => ([...pre.map(i => i.id == data.id ? data : i)]))
+                } else {
+                    set_lstRows(pre => ([...pre.filter(i => i.id != data.id)]))
+                }
+
+            } else {
+                if (HeaderParams == model.Grades) {
+                    set_lstRows(pre => ([data, ...pre]))
+                }
             }
             notification.success({
                 duration: 3,

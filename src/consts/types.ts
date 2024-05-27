@@ -10,7 +10,7 @@ export enum SchoolYearStatus {
 
 //========= Class
 export type Class = Schema['Class']['type'];
-export type ClassUpdate = Omit<Class, 'createdAt' | 'updatedAt' >;
+export type ClassUpdate = Omit<Class, 'createdAt' | 'updatedAt' | "SchoolYear" >;
 export enum EGrades {
   Khoi_1 = "Khoi_1",
   Khoi_2 = "Khoi_2",

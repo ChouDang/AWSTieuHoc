@@ -22,6 +22,7 @@ const Class = () => {
             <Wrapper>
                 <Header
                     selectRows={selectRows}
+                    set_selectRows={set_selectRows}
                     set_lstRows={set_lstRows}
                     set_open={set_open}
                     set_openTrash={set_openTrash}
@@ -42,11 +43,11 @@ const Class = () => {
                     set_open={set_open}
                     set_rowEditing={set_rowEditing}
                 />
-                {/* <Trash 
+                <Trash 
                    open={openTrash}
                    set_lstRows={set_lstRows}
                    set_open={set_openTrash}
-                /> */}
+                />
             </Wrapper>
         </Fragment>
     )

@@ -1,17 +1,18 @@
-import { Button, Col, Row, Select, Space } from 'antd'
+import { Button, Col, Row, Select, Space, notification } from 'antd'
 import React, { Fragment, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { optGrades } from '../../../consts'
 import { ClassUpdate, EGrades } from '../../../consts/types'
-import { ListClassesByGrade } from '../../../services/Class'
+import { DeleteClassToTrash, ListClassesByGrade } from '../../../services/Class'
 import { useAppSelector } from '../../../redux/hook'
 
 type Props = {
-  set_lstRows: (lstRows: ClassUpdate[]) => void,
   selectRows: React.Key[],
+  set_lstRows: React.Dispatch<React.SetStateAction<ClassUpdate[]>>,
+  set_selectRows: React.Dispatch<React.SetStateAction<React.Key[]>>,
   set_open: (bol: boolean) => void,
   set_openTrash: (bol: boolean) => void,
-  set_headerParams : (grade: EGrades) => void,
+  set_headerParams: (grade: EGrades) => void,
 }
 
 type FormClassHeader = {
@@ -22,6 +23,7 @@ const Header = (props: Props) => {
 
   const {
     selectRows = [],
+    set_selectRows = () => { },
     set_lstRows = () => { },
     set_open = () => { },
     set_openTrash = () => { },
@@ -46,7 +48,22 @@ const Header = (props: Props) => {
     }
   }
 
-  const onDelRowstoTrash = () => { }
+  const onDelRowstoTrash = async () => {
+    let result = await DeleteClassToTrash(selectRows, SchoolYearSelect)
+    if (result) {
+      set_lstRows(pre => ([...pre.filter(i => selectRows.includes(i.id))]))
+      set_selectRows([])
+      notification.success({
+        message: "Thao tác thành công",
+        duration: 3
+      })
+    } else {
+      notification.error({
+        message: "Thao tác thất bại",
+        duration: 3
+      })
+    }
+  }
 
   useEffect(() => {
     reset({
@@ -71,6 +88,7 @@ const Header = (props: Props) => {
                     onChange(e)
                     onInitClass(e)
                     set_headerParams(e)
+                    set_selectRows([])
                   }}
                   value={value as EGrades}
                   ref={ref}
